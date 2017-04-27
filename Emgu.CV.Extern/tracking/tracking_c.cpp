@@ -29,6 +29,13 @@ void cveTrackerRelease(cv::Tracker** tracker)
    *tracker = 0;
 }
 
+cv::TrackerTLD* cveTrackerTLDCreate(cv::TrackerTLD::Params* parameters)
+{
+	cv::Ptr<cv::TrackerTLD> tracker = cv::TrackerTLD::createTracker(*parameters);
+	tracker.addref();
+	return tracker.get();
+}
+
 cv::MultiTracker* cveMultiTrackerCreate(cv::String* trackerType)
 {
    return new cv::MultiTracker(*trackerType);

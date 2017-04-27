@@ -20,6 +20,8 @@ namespace Emgu.CV.Tracking
    /// </summary>
    public class Tracker : UnmanagedObject
    {
+      internal Tracker() { }
+
       /// <summary>
       /// Creates a tracker by its name.
       /// </summary>
@@ -62,6 +64,26 @@ namespace Emgu.CV.Tracking
             ContribInvoke.cveTrackerRelease(ref _ptr);
       }
    }
+
+   /// <summary>
+   /// a novel tracking framework that explicitly decomposes the long-term tracking task into tracking, learning and detection
+   /// </summary>
+   public class TrackerTLD : Tracker
+   {
+      public struct Params
+      {
+            //no parameters
+      }
+
+      /// <summary>
+      /// Create a TLD tracker
+      /// </summary>
+      /// <param name="parms"></param>
+      public TrackerTLD(Params parms)
+      {
+            _ptr = ContribInvoke.cveTrackerTLDCreate(ref parms);
+      }
+   }
 }
 
 namespace Emgu.CV
@@ -82,5 +104,8 @@ namespace Emgu.CV
 
       [DllImport(CvInvoke.ExternLibrary, CallingConvention = CvInvoke.CvCallingConvention)]
       internal static extern void cveTrackerRelease(ref IntPtr tracker);
+
+      [DllImport(CvInvoke.ExternLibrary, CallingConvention = CvInvoke.CvCallingConvention)]
+      internal static extern IntPtr cveTrackerTLDCreate(ref Tracking.TrackerTLD.Params param);
    }
 }
